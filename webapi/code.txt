@@ -1,0 +1,25 @@
+HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri("http://localhost:56851/");
+
+            client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json"));
+
+            var id = txtSearch.Text.Trim();
+
+            var url = "api/User/" + id;
+
+            HttpResponseMessage response = client.GetAsync(url).Result;
+
+            if (response.IsSuccessStatusCode)
+            {
+                var users = response.Content.ReadAsAsync&lt;Users&gt;().Result;
+
+                MessageBox.Show("User Found : " + 
+                users.FirstName + " "  + users.LastName);
+
+            }
+            else
+            {
+                MessageBox.Show("Error Code" + 
+                response.StatusCode + " : Message - " + response.ReasonPhrase);
+            }
